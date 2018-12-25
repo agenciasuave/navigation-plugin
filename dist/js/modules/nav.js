@@ -21,7 +21,7 @@ export default class Navigation {
         childrensRow.forEach((e, i) => {
             e == obj.screenCurrent ? index = i : false            
         })
-        console.log(rowCurrent)
+        
         //Determina direções de navegação permitidas
         index === 0 ? left = false : left = true
         index + 1 === rowSize ? right = false : right = true
@@ -33,6 +33,8 @@ export default class Navigation {
         this.bottom = bottom
         this.left = left
         this.direction = obj.direction
+        this.screenWidth = obj.screenCurrent.offsetWidth
+        this.screenHeight = obj.screenCurrent.offsetHeight
     }
 
     exeDestinations(){
@@ -83,18 +85,24 @@ export default class Navigation {
 
     topScreen(){
         console.log('Para cima!')
+        window.scrollTo(window.scrollX, -this.screenHeight)
     }
 
     bottomScreen(){
         console.log('Para baixo!')
+        window.scrollTo(window.scrollX, this.screenHeight)
     }
 
     nextScreen(){
         console.log('Para frente!')
+        window.scrollTo(this.screenWidth + window.scrollX, window.scrollY)
+        
     }
 
     prevScreen(){
         console.log('Para trás!')
+        window.scrollTo(window.scrollX - this.screenWidth, window.scrollY)
+        console.log(this.screenWidth, window.scrollX)
     }
 
     init(){
