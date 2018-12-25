@@ -1,0 +1,27 @@
+* {
+    padding: 0px !important;
+    margin: 0px !important;
+    border: 0px !important;
+}
+
+body {
+    /* overflow: hidden */
+}
+
+
+/* Configurações */
+.screen-row {
+    display: flex !important;
+    list-style: none !important;  
+    height: 100vh;
+}
+
+.screen-row li {
+    width: 100% !important;
+    flex: 0 1 auto;
+    flex-shrink: 0 !important
+}
+
+.screen-row li:first-child {
+    background-color: red
+}
