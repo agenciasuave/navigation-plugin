@@ -37,7 +37,18 @@ export default class Navigation {
 
     exeDestinations(){
         
-
+        if(this.direction == 'left' && this.left){ 
+            this.prevScreen() 
+        }
+        if(this.direction == 'right' && this.right){
+            this.nextScreen()
+        }
+        if(this.direction == 'bottom' && this.bottom){
+            this.bottomScreen()
+        }
+        if(this.direction == 'top' && this.top){
+            this.topScreen()
+        }
 
     }
 
