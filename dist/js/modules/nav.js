@@ -102,7 +102,6 @@ export default class Navigation {
     prevScreen(){
         console.log('Para trás!')
         window.scrollTo(window.scrollX - this.screenWidth, window.scrollY)
-        console.log(this.screenWidth, window.scrollX)
     }
 
     init(){
