@@ -47,48 +47,71 @@ class Navigation {
         return list.children
     }
 
-    Animate(direction = 'next', duration = 150){
+    Animate(direction, duration = 150){
         let time, distanceToGo, perMillisecond, start
 
         time = 0
-        perMillisecond = Velocity(duration, this.screenWidth)
-        start = this.screenCurrent.offsetLeft        
+        perMillisecond = Velocity(duration, this.screenWidth, this.screenHeight)
         
+        direction == 'top' || direction == 'bottom' ? start = this.screenCurrent.offsetTop : start = this.screenCurrent.offsetLeft                          
+ 
         distanceToGo = start
+
         setInterval(() => {
             if(time < duration){
                 time++
-                if(direction == 'next'){
-                    //Incrementa a distância com o tempo
-                    distanceToGo += perMillisecond 
-                    window.scrollTo(distanceToGo, window.scrollY)   
-                }else if(direction == 'prev'){  
-                    //Incrementa a distância com o tempo
-                    distanceToGo -= perMillisecond
-                    window.scrollTo(distanceToGo, window.scrollY)  
-                }                             
+
+                switch (direction) {
+                    case 'top':
+                        //Incrementa a distância com o tempo
+                        distanceToGo -= perMillisecond.y
+                        window.scrollTo(window.scrollX, distanceToGo)  
+                        break;
+                    case 'bottom':
+                        distanceToGo += perMillisecond.y 
+                        window.scrollTo(window.scrollX, distanceToGo) 
+                        break;
+                    case 'next':
+                        distanceToGo += perMillisecond.x
+                        window.scrollTo(distanceToGo, window.scrollY)   
+                        break;
+                    case 'prev':
+                        distanceToGo -= perMillisecond.x
+                        window.scrollTo(distanceToGo, window.scrollY)  
+                        break;
+                
+                    default:
+                        break;
+                }
+
+                          
             }
         })
 
         //Retorna a velocidade 
-        function Velocity (time, distance) {
-            return distance / time            
+        function Velocity (time, width, height) {
+            return {
+                x: width / time,
+                y: height / time
+            }         
         }
     }
 
     topScreen(){
         console.log('Para cima!')
-        window.scrollTo(window.scrollX, -this.screenHeight)
+        // window.scrollTo(window.scrollX, -this.screenHeight)
+        this.Animate('top')
     }
 
     bottomScreen(){
         console.log('Para baixo!')
         window.scrollTo(window.scrollX, this.screenHeight)
+        this.Animate('bottom')
     }
 
     nextScreen(){
         console.log('Para frente!')
-        this.Animate()
+        this.Animate('next')
     }
 
     prevScreen(){
