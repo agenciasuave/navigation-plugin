@@ -1,4 +1,5 @@
-import Navigation from './modules/nav.js'
+import {NavByArrows} from './modules/nav.js'
 
-const nav = new Navigation()
-nav.init()
+
+const byArrows = new NavByArrows()
+byArrows.init()

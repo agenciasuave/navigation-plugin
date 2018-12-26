@@ -1,6 +1,7 @@
-export default class Navigation {
+class Navigation {
     constructor() {
         this.screens = document.querySelectorAll('.screen-container li')
+        this.arrows = document.querySelectorAll('.screen-container .screen-arrow')
         this.controls = document.querySelectorAll('.screen-container .screen-control')
         this.RowsLength = document.querySelectorAll('.screen-row').length
     }
@@ -35,24 +36,7 @@ export default class Navigation {
         this.direction = obj.direction
         this.screenWidth = obj.screenCurrent.offsetWidth
         this.screenHeight = obj.screenCurrent.offsetHeight
-    }
-
-    exeDestinations(){
-        
-        if(this.direction == 'left' && this.left){ 
-            this.prevScreen() 
-        }
-        if(this.direction == 'right' && this.right){
-            this.nextScreen()
-        }
-        if(this.direction == 'bottom' && this.bottom){
-            this.bottomScreen()
-        }
-        if(this.direction == 'top' && this.top){
-            this.topScreen()
-        }
-
-    }
+    }    
 
     getFatherScreen(screen){
         return screen.parentElement
@@ -62,26 +46,6 @@ export default class Navigation {
         return list.children
     }
 
-    addControlEvent(){        
-        this.controls.forEach(e => {
-            //Adiciona evento de clique aos links de controle           
-            e.addEventListener('click', control => {  
-                control.preventDefault()
-
-                //Passa ao método de destino um objeto
-                //com a direção e linha pai da screen                
-                this.possibleDestinations({
-                    direction: e.dataset.direction,
-                    row: this.getFatherScreen(e.parentElement),
-                    screens: this.getScreenByList(this.getFatherScreen(e.parentElement)),                    
-                    screenCurrent: e.parentElement
-                })           
-
-                this.exeDestinations()
-            })              
-        })
-        return this.controls
-    }
 
     topScreen(){
         console.log('Para cima!')
@@ -104,7 +68,52 @@ export default class Navigation {
         window.scrollTo(window.scrollX - this.screenWidth, window.scrollY)
     }
 
+}
+
+class NavByArrows extends Navigation{
+    executeNav(){
+        
+        if(this.direction == 'left' && this.left){ 
+            this.prevScreen() 
+        }
+        if(this.direction == 'right' && this.right){
+            this.nextScreen()
+        }
+        if(this.direction == 'bottom' && this.bottom){
+            this.bottomScreen()
+        }
+        if(this.direction == 'top' && this.top){
+            this.topScreen()
+        }
+
+    }
+    
+    addControlEvent(){        
+        this.arrows.forEach(e => {
+            //Adiciona evento de clique aos links de controle           
+            e.addEventListener('click', control => {  
+                control.preventDefault()
+
+                //Passa ao método de destino um objeto
+                //com a direção e linha pai da screen                
+                this.possibleDestinations({
+                    direction: e.dataset.direction,
+                    row: this.getFatherScreen(e.parentElement),
+                    screens: this.getScreenByList(this.getFatherScreen(e.parentElement)),                    
+                    screenCurrent: e.parentElement
+                })           
+
+                this.executeNav()
+            })              
+        })
+        return this.arrows
+    }
+
     init(){
         this.addControlEvent()
     }
 }
+
+
+
+export {NavByArrows}
