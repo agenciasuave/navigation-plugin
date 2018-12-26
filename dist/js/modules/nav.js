@@ -36,6 +36,7 @@ class Navigation {
         this.direction = obj.direction
         this.screenWidth = obj.screenCurrent.offsetWidth
         this.screenHeight = obj.screenCurrent.offsetHeight
+        this.screenCurrent = obj.screenCurrent
     }    
 
     getFatherScreen(screen){
@@ -46,6 +47,34 @@ class Navigation {
         return list.children
     }
 
+    Animate(direction = 'next', duration = 150){
+        let time, distanceToGo, perMillisecond, start
+
+        time = 0
+        perMillisecond = Velocity(duration, this.screenWidth)
+        start = this.screenCurrent.offsetLeft        
+        
+        distanceToGo = start
+        setInterval(() => {
+            if(time < duration){
+                time++
+                if(direction == 'next'){
+                    //Incrementa a distância com o tempo
+                    distanceToGo += perMillisecond 
+                    window.scrollTo(distanceToGo, window.scrollY)   
+                }else if(direction == 'prev'){  
+                    //Incrementa a distância com o tempo
+                    distanceToGo -= perMillisecond
+                    window.scrollTo(distanceToGo, window.scrollY)  
+                }                             
+            }
+        })
+
+        //Retorna a velocidade 
+        function Velocity (time, distance) {
+            return distance / time            
+        }
+    }
 
     topScreen(){
         console.log('Para cima!')
@@ -59,13 +88,13 @@ class Navigation {
 
     nextScreen(){
         console.log('Para frente!')
-        window.scrollTo(this.screenWidth + window.scrollX, window.scrollY)
-        
+        this.Animate()
     }
 
     prevScreen(){
         console.log('Para trás!')
-        window.scrollTo(window.scrollX - this.screenWidth, window.scrollY)
+        //window.scrollTo(window.scrollX - this.screenWidth, window.scrollY)
+        this.Animate('prev')
     }
 
 }
