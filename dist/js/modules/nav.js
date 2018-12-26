@@ -114,6 +114,28 @@ class NavByArrows extends Navigation{
     }
 }
 
+class NavByScreens extends Navigation{
+    executeNav(id){
+        const screen = document.querySelector(`#${id}`)
+        window.scrollTo(screen.offsetLeft, screen.offsetTop)
+    }
+
+    addControlEvent(){        
+        this.controls.forEach(e => {
+            //Adiciona evento de clique aos links de controle           
+            e.addEventListener('click', control => {  
+                control.preventDefault()
+
+                this.executeNav(e.dataset.direction)
+            })              
+        })
+        return this.controls
+    }
 
 
-export {NavByArrows}
+    init(){
+        this.addControlEvent()
+    }
+}
+
+export {Navigation, NavByArrows, NavByScreens}
